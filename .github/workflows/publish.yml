@@ -2,14 +2,14 @@ name: Publish to NuGet
 
 on:
   release:
-    types: [published]  # 当你在GitHub上发布一个Release时触发
+    types: [published]
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    environment: release  # 与NuGet策略中的Environment对应
+    environment: release
     permissions:
-      id-token: write    # 【关键】允许此job获取OIDC令牌
+      id-token: write
       contents: read
 
     steps:
@@ -19,19 +19,36 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0' # 替换为你需要的.NET版本
+        dotnet-version: '8.0'
 
-    - name: Build and Pack
+    - name: Restore dependencies
+      run: dotnet restore EFCore.BulkExtensions.sln
+
+    - name: Build all projects
+      run: dotnet build EFCore.BulkExtensions.sln -c Release --no-restore
+
+    - name: Pack all projects
       run: |
-        dotnet pack EFCore.BulkExtensions/EFCore.BulkExtensions.csproj -c Release -o out
+        # 主项目
+        dotnet pack EFCore.BulkExtensions/EFCore.BulkExtensions.csproj -c Release --no-build -o out
+        
+        # 子项目（只打包实际存在的）
+        dotnet pack EFCore.BulkExtensions.MySql/EFCore.BulkExtensions.MySql.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Oracle/EFCore.BulkExtensions.Oracle.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.PostgreSql/EFCore.BulkExtensions.PostgreSql.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Sqlite/EFCore.BulkExtensions.Sqlite.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.SqlServer/EFCore.BulkExtensions.SqlServer.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Core/EFCore.BulkExtensions.Core.csproj -c Release --no-build -o out
+        # GBase 已移除，因为项目不存在
 
-    # 【核心】使用NuGet/login@v1获取临时的、短期的API密钥
+    - name: List output files
+      run: ls -la out/
+
     - name: NuGet Login (OIDC)
       uses: NuGet/login@v1
       id: login
       with:
-        user: ${{ secrets.NUGET_USER }}  # 引用你刚创建的secret
+        user: ${{ secrets.NUGET_USER }}
 
-    # 使用上一步获取的临时密钥推送包
     - name: Push to NuGet
       run: dotnet nuget push out/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
