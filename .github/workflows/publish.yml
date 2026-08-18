@@ -16,26 +16,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: List root directory (debug)
-      run: ls -la
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0'
 
     - name: Restore dependencies
-      run: dotnet restore EFCore.BulkExtensions.Net8.sln
+      run: dotnet restore EFCore.BulkExtensions.sln
 
     - name: Build all projects
-      run: dotnet build EFCore.BulkExtensions.Net8.sln -c Release --no-restore
+      run: dotnet build EFCore.BulkExtensions.sln -c Release --no-restore
 
     - name: Pack all projects
       run: |
-        # 主项目
         dotnet pack EFCore.BulkExtensions/EFCore.BulkExtensions.csproj -c Release --no-build -o out
-        
-        # 子项目
         dotnet pack EFCore.BulkExtensions.MySql/EFCore.BulkExtensions.MySql.csproj -c Release --no-build -o out
         dotnet pack EFCore.BulkExtensions.Oracle/EFCore.BulkExtensions.Oracle.csproj -c Release --no-build -o out
         dotnet pack EFCore.BulkExtensions.PostgreSql/EFCore.BulkExtensions.PostgreSql.csproj -c Release --no-build -o out
