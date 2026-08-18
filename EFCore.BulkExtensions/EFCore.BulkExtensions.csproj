@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>LiangTianLin.EFCore.BulkExtensions</PackageId>
       <!-- 将下面的版本号改为你期望的版本 -->
-    <Version>1.0.3</Version>
+    <Version>1.0.1</Version>
     <!-- <AssemblyVersion>1.0.0.0</AssemblyVersion> -->
     <!-- <FileVersion>1.0.0.0</FileVersion> -->
     <Title>EFCore.BulkExtensions</Title>
