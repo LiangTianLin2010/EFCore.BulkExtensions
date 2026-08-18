@@ -16,16 +16,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: List root directory (debug)
+      run: ls -la
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore EFCore.BulkExtensions.Net8.sln
 
     - name: Build all projects
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build EFCore.BulkExtensions.Net8.sln -c Release --no-restore
 
     - name: Pack all projects
       run: |
