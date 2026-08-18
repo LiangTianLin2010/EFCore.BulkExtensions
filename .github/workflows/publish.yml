@@ -21,31 +21,25 @@ jobs:
       with:
         dotnet-version: '8.0'
 
-    - name: Build and Pack all projects
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build all projects
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Pack all projects
       run: |
         # 主项目
-        dotnet pack EFCore.BulkExtensions/EFCore.BulkExtensions.csproj -c Release -o out
+        dotnet pack EFCore.BulkExtensions/EFCore.BulkExtensions.csproj -c Release --no-build -o out
         
-        # 子项目：MySql
-        dotnet pack EFCore.BulkExtensions.MySql/EFCore.BulkExtensions.MySql.csproj -c Release -o out
-        
-        # 子项目：Oracle
-        dotnet pack EFCore.BulkExtensions.Oracle/EFCore.BulkExtensions.Oracle.csproj -c Release -o out
-        
-        # 子项目：PostgreSql
-        dotnet pack EFCore.BulkExtensions.PostgreSql/EFCore.BulkExtensions.PostgreSql.csproj -c Release -o out
-        
-        # 子项目：Sqlite
-        dotnet pack EFCore.BulkExtensions.Sqlite/EFCore.BulkExtensions.Sqlite.csproj -c Release -o out
-        
-        # 子项目：SqlServer
-        dotnet pack EFCore.BulkExtensions.SqlServer/EFCore.BulkExtensions.SqlServer.csproj -c Release -o out
-        
-        # 子项目：GBase
-        dotnet pack EFCore.BulkExtensions.GBase/EFCore.BulkExtensions.GBase.csproj -c Release -o out
-        
-        # 子项目：Core
-        dotnet pack EFCore.BulkExtensions.Core/EFCore.BulkExtensions.Core.csproj -c Release -o out
+        # 子项目
+        dotnet pack EFCore.BulkExtensions.MySql/EFCore.BulkExtensions.MySql.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Oracle/EFCore.BulkExtensions.Oracle.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.PostgreSql/EFCore.BulkExtensions.PostgreSql.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Sqlite/EFCore.BulkExtensions.Sqlite.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.SqlServer/EFCore.BulkExtensions.SqlServer.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.GBase/EFCore.BulkExtensions.GBase.csproj -c Release --no-build -o out
+        dotnet pack EFCore.BulkExtensions.Core/EFCore.BulkExtensions.Core.csproj -c Release --no-build -o out
 
     - name: List output files
       run: ls -la out/
