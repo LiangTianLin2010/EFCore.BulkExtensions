@@ -23,7 +23,7 @@ jobs:
 
     - name: Build and Pack
       run: |
-        dotnet pack YourProject.csproj -c Release -o out
+        dotnet pack EFCore.BulkExtensions.csproj -c Release -o out
 
     # 【核心】使用NuGet/login@v1获取临时的、短期的API密钥
     - name: NuGet Login (OIDC)
