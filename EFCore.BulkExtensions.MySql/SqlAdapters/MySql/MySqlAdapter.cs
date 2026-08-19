@@ -138,18 +138,18 @@ public class MySqlAdapter : ISqlOperationsAdapter
                 tempTableCreated = true;
             }
 
-            bool hasUniqueConstrain = false;
-            string joinedEntityPK = string.Join("_", tableInfo.EntityPKPropertyColumnNameDict.Keys.ToList());
-            string joinedPrimaryKeys = string.Join("_", tableInfo.PrimaryKeysPropertyColumnNameDict.Keys.ToList());
-            if (joinedEntityPK == joinedPrimaryKeys)
-            {
-                hasUniqueConstrain = true; // Explicit Constrain not required for PK
-            }
-            else
-            {
-                (hasUniqueConstrain, bool connectionOpenedInternally) = 
-                    await CheckHasExplicitUniqueConstrainAsync(context, tableInfo, isAsync, cancellationToken).ConfigureAwait(false);
-            }
+            bool hasUniqueConstrain = true;
+            //string joinedEntityPK = string.Join("_", tableInfo.EntityPKPropertyColumnNameDict.Keys.ToList());
+            //string joinedPrimaryKeys = string.Join("_", tableInfo.PrimaryKeysPropertyColumnNameDict.Keys.ToList());
+            //if (joinedEntityPK == joinedPrimaryKeys)
+            //{
+            //    hasUniqueConstrain = true; // Explicit Constrain not required for PK
+            //}
+            //else
+            //{
+            //    (hasUniqueConstrain, bool connectionOpenedInternally) = 
+            //        await CheckHasExplicitUniqueConstrainAsync(context, tableInfo, isAsync, cancellationToken).ConfigureAwait(false);
+            //}
 
             if (!hasUniqueConstrain)
             {

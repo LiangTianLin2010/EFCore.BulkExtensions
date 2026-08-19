@@ -277,17 +277,18 @@ public class PostgreSqlAdapter : ISqlOperationsAdapter
                 outputTableCreated = true;
             }
 
-            bool hasUniqueIndex = false;
+            bool hasUniqueIndex = true;
             string joinedEntityPK = string.Join("_", tableInfo.EntityPKPropertyColumnNameDict.Keys.ToList());
             string joinedPrimaryKeys = string.Join("_", tableInfo.PrimaryKeysPropertyColumnNameDict.Keys.ToList());
-            if (joinedEntityPK == joinedPrimaryKeys)
-            {
-                hasUniqueIndex = true; // Explicit Constrain not required for PK
-            }
-            else
-            {
-                (hasUniqueIndex, connectionOpenedInternally) = await CheckHasExplicitUniqueConstrainAsync(context, tableInfo, isAsync, cancellationToken).ConfigureAwait(false);
-            }
+       
+            //if (joinedEntityPK == joinedPrimaryKeys)
+            //{
+            //    hasUniqueIndex = true; // Explicit Constrain not required for PK
+            //}
+            //else
+            //{
+            //    (hasUniqueIndex, connectionOpenedInternally) = await CheckHasExplicitUniqueConstrainAsync(context, tableInfo, isAsync, cancellationToken).ConfigureAwait(false);
+            //}
 
             if (!hasUniqueIndex)
             {
