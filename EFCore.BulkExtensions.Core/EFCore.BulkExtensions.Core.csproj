@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
       <PackageId>LiangTianLin.EFCore.BulkExtensions.Core</PackageId>
-      <Version>1.1.1</Version>
+      <Version>1.1.2</Version>
     <Title>EFCore.BulkExtensions.Core</Title>
     <RootNamespace>EFCore.BulkExtensions</RootNamespace>
     <Description>EntityFramework .Net EFCore EF Core Bulk Batch Extensions for Insert Update Delete Read (CRUD) operations</Description>
